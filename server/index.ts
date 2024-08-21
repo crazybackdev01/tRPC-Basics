@@ -10,6 +10,7 @@ const todoInputType = z.object({
 
 const appRouter = router({
   createTodo: publicProcedure.input(todoInputType).mutation(async (opts) => {
+    console.log("Money");
     const { input } = opts;
     const title = input.title;
     const description = input.description;

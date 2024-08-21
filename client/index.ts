@@ -11,4 +11,13 @@ const trpc = createTRPCClient<AppRouter>({
   ],
 });
 
-trpc.createTodo;
+const main = async () => {
+  const response = await trpc.createTodo.mutate({
+    title: "Go to work",
+    description: "Money is everything",
+  });
+
+  console.log(response);
+};
+
+main();
