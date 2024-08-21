@@ -8,6 +8,12 @@ const todoInputType = z.object({
   description: z.string().max(200).min(4),
 });
 
+const userInputType = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  password: z.string(),
+});
+
 const appRouter = router({
   createTodo: publicProcedure.input(todoInputType).mutation(async (opts) => {
     console.log("Money");
@@ -21,6 +27,12 @@ const appRouter = router({
       id: "1",
     };
   }),
+  signUpProcedure: publicProcedure
+    .input(userInputType)
+    .mutation(async (opts) => {
+      const { input } = opts;
+      const { name, email, password } = input;
+    }),
 });
 // Export type router type signature,
 // NOT the router itself
