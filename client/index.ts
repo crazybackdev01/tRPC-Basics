@@ -7,6 +7,11 @@ export const trpc = createTRPCClient<AppRouter>({
   links: [
     httpBatchLink({
       url: "http://localhost:3000",
+      async headers() {
+        return {
+          Authorization: "Bearer 123",
+        };
+      },
     }),
   ],
 });
@@ -15,9 +20,15 @@ export const trpc = createTRPCClient<AppRouter>({
 // Export this above trpc variable wherever in React code file when need to call the server
 
 const main = async () => {
+  // const response = await trpc.signUpProcedure.mutate({
+  //   name: "Udit Nagar",
+  //   email: "udit@gmail.com",
+  //   password: "xyz",
+  // });
+  // console.log(response.token);
   const response = await trpc.createTodo.mutate({
     title: "Go to work",
-    description: "Money is everything",
+    description: "Only work",
   });
 
   console.log(response);

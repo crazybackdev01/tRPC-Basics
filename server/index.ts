@@ -16,7 +16,8 @@ const userInputType = z.object({
 
 const appRouter = router({
   createTodo: publicProcedure.input(todoInputType).mutation(async (opts) => {
-    console.log("Money");
+    // console.log("Money");
+    console.log(opts.ctx.username);
     const { input } = opts;
     const title = input.title;
     const description = input.description;
@@ -32,12 +33,29 @@ const appRouter = router({
     .mutation(async (opts) => {
       const { input } = opts;
       const { name, email, password } = input;
+      // Check if the user already exists in DB
+      // If not then save the user
+      // then create a token by JWT and return the token in the response to the Frontend client
+      const token = "123444dks";
+      return {
+        token,
+      };
     }),
 });
 // Export type router type signature,
 // NOT the router itself
 
-const server = createHTTPServer({ router: appRouter });
+const server = createHTTPServer({
+  router: appRouter,
+  createContext(opts) {
+    let authHeader = opts.req.headers["authorization"];
+    console.log(authHeader);
+    //if(jwt.verify(authHeader, process.env.JWT_SECRET)) then return username else return error;
+    return {
+      username: "xyz",
+    };
+  },
+});
 server.listen(3000);
 
 export type AppRouter = typeof appRouter;
